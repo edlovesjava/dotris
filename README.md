@@ -126,6 +126,19 @@ See [ASSEMBLY.md](ASSEMBLY.md) for detailed customization instructions.
 
 See [ASSEMBLY.md](ASSEMBLY.md) for more troubleshooting tips.
 
+## Code Enhancement Notes
+
+The provided Arduino sketch (`dotris/dotris.ino`) is a **basic framework and starter implementation**. Some game logic functions are simplified placeholders that should be enhanced for complete Tetris gameplay:
+
+### Areas for Enhancement
+1. **Collision Detection** - Currently simplified; needs full piece-to-board collision checking
+2. **Piece Locking** - Should account for horizontal position (currentX) and full piece shape
+3. **Piece Display** - Should render pieces at their actual horizontal position
+4. **Rotation Logic** - Placeholder implementation needs full tetromino rotation matrices
+5. **Boundary Checking** - Should account for actual piece width, not just position
+
+These are marked with "placeholder" comments in the code. The framework provides the structure for a working game; developers can expand these functions based on their specific needs.
+
 ## Future Enhancements
 
 Potential improvements and features:

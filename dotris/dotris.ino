@@ -8,6 +8,11 @@
  * 
  * Pin Configuration:
  * - See hardware.md for detailed pin mappings
+ * 
+ * NOTE: This is a basic framework/starter implementation. 
+ * Some game logic functions are simplified placeholders and will need
+ * enhancement for full Tetris gameplay. Areas marked with "placeholder"
+ * comments should be expanded based on your specific requirements.
  */
 
 // Constants
@@ -50,6 +55,10 @@ void setup() {
   pinMode(BTN_LEFT, INPUT_PULLUP);
   pinMode(BTN_RIGHT, INPUT_PULLUP);
   // Note: Rotate button requires RESET pin config or I/O expander
+  
+  // Seed random number generator for piece selection
+  // Uses analog noise on unused pin for entropy
+  randomSeed(analogRead(A0));
   
   // Initialize display
   initDisplay();
