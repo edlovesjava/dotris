@@ -6,9 +6,9 @@
 |----------|-----------|----------------|-------|
 | 1 | ATtiny85 Microcontroller | 8-bit AVR, DIP-8 package | Main controller |
 | 1 | 8x8 LED Matrix Module | MAX7219 driver, red LEDs | Display |
-| 3 | Tactile Push Button | 6x6mm, through-hole | Game controls |
+| 2 | Tactile Push Button | 6x6mm, through-hole | Game controls (left/right) |
 | 1 | Capacitor | 0.1µF ceramic, 50V | Power decoupling |
-| 3 | Resistor | 10kΩ, 1/4W | Button pull-ups (optional) |
+| 2 | Resistor | 10kΩ, 1/4W | Button pull-ups (optional) |
 | 1 | IC Socket | 8-pin DIP | For ATtiny85 (optional) |
 
 ## Power Supply
@@ -34,8 +34,12 @@
 |----------|-----------|----------------|-------|
 | 1 | Piezo Buzzer | 5V active | Sound effects |
 | 1 | Potentiometer | 10kΩ linear | Difficulty adjustment |
+| 1 | Tactile Push Button | 6x6mm, through-hole | 3rd button for rotate* |
+| 1 | 74HC165 Shift Register | 8-bit parallel-in/serial-out | For extra inputs* |
 | 1 | Custom PCB | - | For permanent assembly |
 | 1 | Enclosure | - | Project case |
+
+*Note: Adding a rotate button requires using the RESET pin (with special fuse configuration) or adding an I/O expander/shift register.
 
 ## Where to Buy
 

@@ -9,7 +9,7 @@
 2. **ATtiny Board Support**
    - Install ATTinyCore by Spence Konde
    - In Arduino IDE: File → Preferences → Additional Board Manager URLs
-   - Add: `http://drazzy.com/package_drazzy.com_index.json`
+   - Add: `https://drazzy.com/package_drazzy.com_index.json`
    - Tools → Board → Boards Manager → Search "ATTinyCore" → Install
 
 3. **AVR Programmer Drivers**
@@ -49,9 +49,9 @@ ATtiny85 Pin 7 (PB2) → LED Matrix CS
 ```
 Button 1 (LEFT):   One side to ATtiny85 Pin 2 (PB3), other side to GND
 Button 2 (RIGHT):  One side to ATtiny85 Pin 3 (PB4), other side to GND
-Button 3 (ROTATE): One side to ATtiny85 Pin 1 (RESET)*, other side to GND
+
+Optional Button 3 (ROTATE): Requires RESET pin configuration or I/O expander
 ```
-*Note: Using RESET as input requires special fuse configuration. See hardware.md for alternatives.
 
 ### 1.5 Power Supply
 Connect 5V power adapter or USB cable to breadboard power rails.
@@ -122,8 +122,8 @@ Connect your AVR programmer to the ATtiny85:
 
 ### 4.2 Button Test
 1. Press **LEFT** button - piece should move left
-2. Press **RIGHT** button - piece should move right  
-3. Press **ROTATE** button - piece should rotate
+2. Press **RIGHT** button - piece should move right
+3. Note: Rotate functionality requires additional hardware (see hardware.md)
 
 ### 4.3 Gameplay Test
 1. Let a piece fall to the bottom

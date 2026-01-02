@@ -14,7 +14,7 @@ Micro DOTris is a falling-block puzzle game where you arrange falling tetromino 
 1. **Piece Movement**
    - Pieces fall automatically from top to bottom
    - Use LEFT and RIGHT buttons to move pieces horizontally
-   - Use ROTATE button to rotate pieces 90 degrees
+   - Rotation requires additional hardware configuration (see hardware.md)
 
 2. **Line Clearing**
    - When a horizontal line is completely filled with blocks, it clears
@@ -55,8 +55,10 @@ J-Piece          ███
 
 ### Button Layout
 ```
-[LEFT]  [RIGHT]  [ROTATE]
+[LEFT]  [RIGHT]
 ```
+
+*Note: Rotate button requires RESET pin configuration or I/O expander*
 
 ### Control Actions
 
@@ -64,7 +66,8 @@ J-Piece          ███
 |--------|--------|-------------|
 | LEFT   | Move Left | Moves current piece one column left |
 | RIGHT  | Move Right | Moves current piece one column right |
-| ROTATE | Rotate | Rotates current piece 90° clockwise |
+
+*Rotate functionality requires additional hardware (RESET pin config or I/O expander)*
 
 ### Button Behavior
 - **Debounced Input**: 200ms delay prevents accidental multiple presses
@@ -127,7 +130,7 @@ sendCommand(0x0A, 0x08); // Intensity: 0x00 (min) to 0x0F (max)
 ## Tips and Strategies
 
 1. **Plan Ahead**
-   - Consider where the piece will land before rotating
+   - Consider where the piece will land
    - Think about creating flat surfaces for future pieces
 
 2. **Clear Lines Quickly**
@@ -137,10 +140,7 @@ sendCommand(0x0A, 0x08); // Intensity: 0x00 (min) to 0x0F (max)
 3. **Positioning**
    - Try to keep the stack level
    - Avoid creating tall columns with gaps
-
-4. **Rotation Timing**
-   - Rotate pieces early while there's space
-   - Last-minute rotations can be difficult near boundaries
+   - Without rotation, positioning becomes even more critical
 
 ## Known Limitations
 
@@ -174,6 +174,7 @@ Planned enhancements:
 - [ ] Next piece preview
 - [ ] Fast drop button
 - [ ] Piece hold/swap functionality
+- [ ] Piece rotation (requires RESET pin config or I/O expander)
 - [ ] Progressive speed increase
 - [ ] Multiple difficulty levels
 

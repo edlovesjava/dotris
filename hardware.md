@@ -15,17 +15,17 @@
   - Red, green, or other color as preferred
 
 ### Input Controls
-- **3x Push Buttons** (normally open)
+- **2x Push Buttons** (normally open)
   - Left movement
   - Right movement
-  - Rotate piece
+- **Optional**: 3rd button for rotate (requires RESET pin configuration or I/O expander)
 
 ### Power
 - **5V Power Supply** (USB or battery)
   - Current draw: ~200mA typical
 
 ### Additional Components
-- 10kΩ resistors (3x) - for button pull-ups (if not using internal pull-ups)
+- 10kΩ resistors (2x) - for button pull-ups (if not using internal pull-ups)
 - 0.1µF capacitor - power supply decoupling
 - Jumper wires
 - Breadboard or custom PCB
@@ -51,11 +51,11 @@
 | PB2 (Pin 7)  | D2          | CS       | MAX7219 CS   |
 | PB3 (Pin 2)  | D3          | BTN_LEFT | Left Button  |
 | PB4 (Pin 3)  | D4          | BTN_RIGHT| Right Button |
-| RESET (Pin 1)| RESET       | BTN_ROTATE| Rotate Button* |
+| RESET (Pin 1)| RESET       | BTN_ROTATE*| Rotate Button (Optional) |
 | VCC (Pin 8)  | VCC         | Power    | +5V          |
 | GND (Pin 4)  | GND         | Ground   | GND          |
 
-*Note: Using RESET pin for button requires special configuration and fuse settings. Alternative: use an external shift register or GPIO expander for additional inputs.
+*Note: Using RESET pin for button requires special configuration and fuse settings (disabling reset functionality). Alternative: use only 2 buttons (left/right) or add an external shift register or GPIO expander for additional inputs. Current sketch is configured for 2-button operation.
 
 ## Circuit Diagram
 
@@ -103,7 +103,7 @@ Note: Internal pull-ups are enabled in software
 ### Using Arduino IDE
 
 1. Install ATtiny board support:
-   - Add to Board Manager URLs: `http://drazzy.com/package_drazzy.com_index.json`
+   - Add to Board Manager URLs: `https://drazzy.com/package_drazzy.com_index.json`
    - Install "ATTinyCore" by Spence Konde
 
 2. Select board:

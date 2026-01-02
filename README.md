@@ -16,7 +16,7 @@ Micro DOTris is a compact implementation of the classic falling-block puzzle gam
 - Line clearing and scoring
 - Compact design using ATtiny85 (8KB flash)
 - Low power consumption
-- Simple 3-button control scheme
+- Simple 2-button control scheme (expandable to 3 buttons)
 - Adjustable game speed and display brightness
 
 ## Hardware Requirements
@@ -24,8 +24,10 @@ Micro DOTris is a compact implementation of the classic falling-block puzzle gam
 ### Core Components
 - **ATtiny85** microcontroller (8-bit AVR)
 - **8x8 LED Matrix** with MAX7219 driver
-- **3 Push Buttons** (left, right, rotate)
+- **2 Push Buttons** (left, right movement)
 - **Power Supply** (5V, USB or battery)
+
+*Note: Rotate button requires RESET pin configuration or I/O expander (see hardware.md)*
 
 See [BOM.md](BOM.md) for complete bill of materials and purchasing information.
 
@@ -81,7 +83,8 @@ Follow the detailed instructions in [ASSEMBLY.md](ASSEMBLY.md) to:
 |--------|----------|
 | LEFT   | Move piece left |
 | RIGHT  | Move piece right |
-| ROTATE | Rotate piece |
+
+*Note: Rotate functionality requires RESET pin configuration or I/O expander. See [hardware.md](hardware.md) for details.*
 
 ## Customization
 
@@ -100,7 +103,7 @@ See [ASSEMBLY.md](ASSEMBLY.md) for detailed customization instructions.
 | Microcontroller | ATtiny85 @ 8MHz |
 | Program Memory | ~4-6 KB (of 8KB available) |
 | Display | 8x8 LED matrix |
-| Input | 3 push buttons |
+| Input | 2 push buttons (expandable) |
 | Power | 5V, ~200mA typical |
 | Interface | SPI (bit-banged for MAX7219) |
 

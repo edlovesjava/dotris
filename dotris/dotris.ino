@@ -15,12 +15,14 @@ const int MATRIX_SIZE = 8;
 const int GAME_SPEED = 500; // milliseconds
 
 // Pin definitions (adjust based on your hardware)
-const int DATA_PIN = 0;   // DIN on MAX7219
-const int CLK_PIN = 1;    // CLK on MAX7219
-const int CS_PIN = 2;     // CS/LOAD on MAX7219
-const int BTN_LEFT = 3;   // Left button
-const int BTN_RIGHT = 4;  // Right button
-const int BTN_ROTATE = 5; // Rotate button
+const int DATA_PIN = 0;   // DIN on MAX7219 (PB0)
+const int CLK_PIN = 1;    // CLK on MAX7219 (PB1)
+const int CS_PIN = 2;     // CS/LOAD on MAX7219 (PB2)
+const int BTN_LEFT = 3;   // Left button (PB3)
+const int BTN_RIGHT = 4;  // Right button (PB4)
+// Note: ATtiny85 has only 5 usable I/O pins (PB0-PB4)
+// For rotate button, use RESET pin with special config or external I/O expander
+// Current config: rotate functionality is limited without additional hardware
 
 // Game state
 byte gameBoard[MATRIX_SIZE];
@@ -47,7 +49,7 @@ void setup() {
   pinMode(CS_PIN, OUTPUT);
   pinMode(BTN_LEFT, INPUT_PULLUP);
   pinMode(BTN_RIGHT, INPUT_PULLUP);
-  pinMode(BTN_ROTATE, INPUT_PULLUP);
+  // Note: Rotate button requires RESET pin config or I/O expander
   
   // Initialize display
   initDisplay();
@@ -66,10 +68,11 @@ void loop() {
     movePiece(1);
     delay(200); // Debounce
   }
-  if (digitalRead(BTN_ROTATE) == LOW) {
-    rotatePiece();
-    delay(200); // Debounce
-  }
+  // Rotate button disabled - requires RESET pin config or I/O expander
+  // if (digitalRead(BTN_ROTATE) == LOW) {
+  //   rotatePiece();
+  //   delay(200); // Debounce
+  // }
   
   // Game tick
   static unsigned long lastUpdate = 0;
