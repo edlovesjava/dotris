@@ -237,8 +237,8 @@ void loop() {
     if (speed > 30) speed = 30;
   }
 
-  // Apply starting level to speed (level 1 = normal, level 10 = fast start)
-  uint8_t effectiveSpeed = speed + (startLevel - 1) * 3;
+  // Apply starting level to speed (level 1 = normal, level 10 = max speed)
+  uint8_t effectiveSpeed = speed + (startLevel - 1) * 6;
   if (effectiveSpeed > 30) effectiveSpeed = 30;
 
   uint16_t dropInterval = 800 - (effectiveSpeed * 20);  // gets smaller as speed increases
