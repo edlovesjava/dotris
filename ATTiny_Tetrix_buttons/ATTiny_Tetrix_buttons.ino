@@ -113,7 +113,10 @@ void selectStartLevel() {
       while (digitalRead(RIGHT_BUTTON) == LOW || digitalRead(LEFT_BUTTON) == LOW) {
         delay(10);
       }
-      delay(100);
+      // Clear display before game starts
+      for (uint8_t i = 0; i < 8; i++) matrix[i] = 0;
+      updateDisplay();
+      delay(200);
       return;
     }
 
