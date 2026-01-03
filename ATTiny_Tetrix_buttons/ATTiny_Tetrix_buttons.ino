@@ -64,13 +64,20 @@ void setup() {
   randomSeed(analogRead(3));
 }
 
-int tick = 0;
+uint16_t tick = 0;
 uint8_t speed = 1;
+uint16_t rightHoldTimer = 0;
+uint16_t leftHoldTimer = 0;
 
 void loop() {
   uint8_t col = random(0, 8);
   uint8_t row = 0;
   uint8_t bit = (1 << col);
+
+  // Reset hold timers for new piece
+  rightHoldTimer = 0;
+  leftHoldTimer = 0;
+
   tick = tick + 1;
   if (tick % 10 == 0) {
     speed++;
@@ -95,10 +102,6 @@ void loop() {
 
     // tiny time slice
     delay(1);
-
-    // movement timer
-    static uint16_t rightHoldTimer = 0;
-    static uint16_t leftHoldTimer = 0;
 
     moveCounter++;
     if (moveCounter >= moveInterval) {
@@ -206,5 +209,9 @@ void loop() {
     for (uint8_t i = 0; i < 8; i++) matrix[i] = 0;
     updateDisplay();
     delay(500);
+
+    // Reset game state
+    speed = 1;
+    tick = 0;
   }
 }

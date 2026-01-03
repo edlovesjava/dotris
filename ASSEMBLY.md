@@ -47,8 +47,8 @@ ATtiny85 Pin 7 (PB2) → LED Matrix CS
 
 ### 1.4 Button Connections
 ```
-Button 1 (LEFT):   One side to ATtiny85 Pin 2 (PB3), other side to GND
-Button 2 (RIGHT):  One side to ATtiny85 Pin 3 (PB4), other side to GND
+Button 1 (RIGHT):  One side to ATtiny85 Pin 2 (PB3), other side to GND
+Button 2 (LEFT):   One side to ATtiny85 Pin 3 (PB4), other side to GND
 
 Optional Button 3 (ROTATE): Requires RESET pin configuration or I/O expander
 ```

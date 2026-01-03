@@ -49,8 +49,8 @@
 | PB0 (Pin 5)  | D0          | DATA     | MAX7219 DIN  |
 | PB1 (Pin 6)  | D1          | CLK      | MAX7219 CLK  |
 | PB2 (Pin 7)  | D2          | CS       | MAX7219 CS   |
-| PB3 (Pin 2)  | D3          | BTN_LEFT | Left Button  |
-| PB4 (Pin 3)  | D4          | BTN_RIGHT| Right Button |
+| PB3 (Pin 2)  | D3          | BTN_RIGHT| Right Button |
+| PB4 (Pin 3)  | D4          | BTN_LEFT | Left Button  |
 | RESET (Pin 1)| RESET       | BTN_ROTATE*| Rotate Button (Optional) |
 | VCC (Pin 8)  | VCC         | Power    | +5V          |
 | GND (Pin 4)  | GND         | Ground   | GND          |
