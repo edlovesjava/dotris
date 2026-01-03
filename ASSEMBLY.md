@@ -94,8 +94,8 @@ Connect your AVR programmer to the ATtiny85:
 ## Step 3: Upload Code
 
 ### 3.1 Open Sketch
-1. Navigate to the `dotris` folder
-2. Open `dotris.ino` in Arduino IDE
+1. Navigate to the `ATTiny_Tetrix_buttons` folder
+2. Open `ATTiny_Tetrix_buttons.ino` in Arduino IDE
 
 ### 3.2 Verify Compilation
 1. Click the **Verify** button (checkmark icon)
@@ -158,25 +158,26 @@ If not working:
 
 ## Step 6: Customization
 
-### 6.1 Adjust Game Speed
-In `dotris.ino`, modify:
+### 6.1 Adjust Initial Game Speed
+In `ATTiny_Tetrix_buttons.ino`, find the `loop()` function and modify:
 ```cpp
-const int GAME_SPEED = 500; // Lower = faster, higher = slower
+uint16_t dropInterval = 800 - (speed * 20);  // Base value 800ms, decrease for faster
 ```
 
 ### 6.2 Adjust Display Brightness
-In `initDisplay()` function, modify:
+In `setup()` function, modify:
 ```cpp
-sendCommand(0x0A, 0x08); // Range: 0x00 (min) to 0x0F (max)
+sendCmd(MAX7219_REG_INTENSITY, 0x08);  // Range: 0x00 (min) to 0x0F (max)
 ```
 
 ### 6.3 Change Pin Assignments
 If using different pins, update constants at top of sketch:
 ```cpp
-const int DATA_PIN = 0;   // Change to your pin
-const int CLK_PIN = 1;    // Change to your pin
-const int CS_PIN = 2;     // Change to your pin
-// etc.
+const uint8_t DIN = 0;      // PB0 - Data pin
+const uint8_t CLK = 1;      // PB1 - Clock pin
+const uint8_t CS = 2;       // PB2 - Chip select
+const uint8_t LEFT_B = 3;   // PB3 - Left button
+const uint8_t RIGHT_B = 4;  // PB4 - Right button
 ```
 
 ## Verification Checklist

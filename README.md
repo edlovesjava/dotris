@@ -35,11 +35,17 @@ See [BOM.md](BOM.md) for complete bill of materials and purchasing information.
 
 ```
 dotris/
-├── dotris/
-│   └── dotris.ino          # Main Arduino sketch
+├── ATTiny_Tetrix_buttons/
+│   └── ATTiny_Tetrix_buttons.ino  # Main Arduino sketch
+├── tutorial/                       # Step-by-step tutorial
+│   ├── Learning_the_ATTiny.md
+│   ├── section3_programming_the_ATTiny.md
+│   ├── section6_writing_the_Game.md
+│   └── section7_possible_additions.md
 ├── hardware.md             # Hardware documentation and schematics
 ├── BOM.md                  # Bill of materials
 ├── ASSEMBLY.md             # Assembly and build instructions
+├── GAME.md                 # Game mechanics documentation
 ├── README.md               # This file
 └── LICENSE                 # License information
 ```
@@ -61,7 +67,7 @@ Follow the detailed instructions in [ASSEMBLY.md](ASSEMBLY.md) to:
 - Configure programmer (USBtinyISP or similar)
 
 ### 4. Upload Code
-- Open `dotris/dotris.ino` in Arduino IDE
+- Open `ATTiny_Tetrix_buttons/ATTiny_Tetrix_buttons.ino` in Arduino IDE
 - Select ATtiny85 board and configure settings
 - Burn bootloader (one time)
 - Upload sketch to ATtiny85
@@ -126,18 +132,13 @@ See [ASSEMBLY.md](ASSEMBLY.md) for detailed customization instructions.
 
 See [ASSEMBLY.md](ASSEMBLY.md) for more troubleshooting tips.
 
-## Code Enhancement Notes
+## Tutorial
 
-The provided Arduino sketch (`dotris/dotris.ino`) is a **basic framework and starter implementation**. Some game logic functions are simplified placeholders that should be enhanced for complete Tetris gameplay:
-
-### Areas for Enhancement
-1. **Collision Detection** - Currently simplified; needs full piece-to-board collision checking
-2. **Piece Locking** - Should account for horizontal position (currentX) and full piece shape
-3. **Piece Display** - Should render pieces at their actual horizontal position
-4. **Rotation Logic** - Placeholder implementation needs full tetromino rotation matrices
-5. **Boundary Checking** - Should account for actual piece width, not just position
-
-These are marked with "placeholder" comments in the code. The framework provides the structure for a working game; developers can expand these functions based on their specific needs.
+New to ATtiny85 programming? Check out the [tutorial](tutorial/Learning_the_ATTiny.md) for a step-by-step guide that covers:
+- Introduction to the ATtiny85 microcontroller
+- Setting up your programming environment
+- Understanding the game code
+- Ideas for extending the project
 
 ## Future Enhancements
 
