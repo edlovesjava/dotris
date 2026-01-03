@@ -40,6 +40,7 @@ dotris/
 ├── tutorial/                       # Step-by-step tutorial
 │   ├── Learning_the_ATTiny.md
 │   ├── section3_programming_the_ATTiny.md
+│   ├── section4_building_the_game_board.md
 │   ├── section6_writing_the_Game.md
 │   └── section7_possible_additions.md
 ├── hardware.md             # Hardware documentation and schematics

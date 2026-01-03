@@ -19,8 +19,8 @@
 const uint8_t DIN = 0;
 const uint8_t CLK = 1;
 const uint8_t CS = 2;
-const uint8_t LEFT_B = 3;
-const uint8_t RIGHT_B = 4;
+const uint8_t RIGHT_BUTTON = 3;
+const uint8_t LEFT_BUTTON = 4;
 
 byte matrix[8];
 
@@ -49,8 +49,8 @@ void setup() {
   pinMode(DIN, OUTPUT);
   pinMode(CLK, OUTPUT);
   pinMode(CS, OUTPUT);
-  pinMode(LEFT_B, INPUT_PULLUP);
-  pinMode(RIGHT_B, INPUT_PULLUP);
+  pinMode(RIGHT_BUTTON, INPUT_PULLUP);
+  pinMode(LEFT_BUTTON, INPUT_PULLUP);
 
   sendCmd(MAX7219_REG_DISPLAY_TEST, 0x00);
   sendCmd(MAX7219_REG_DECODE_MODE, 0x00);
@@ -97,27 +97,27 @@ void loop() {
     delay(1);
 
     // movement timer
-    static uint16_t leftHold = 0;
-    static uint16_t rightHold = 0;
+    static uint16_t rightHoldTimer = 0;
+    static uint16_t leftHoldTimer = 0;
 
     moveCounter++;
     if (moveCounter >= moveInterval) {
       moveCounter = 0;
 
-      bool left = (digitalRead(LEFT_B) == LOW);
-      bool right = (digitalRead(RIGHT_B) == LOW);
+      bool rightState = (digitalRead(RIGHT_BUTTON) == LOW);
+      bool leftState = (digitalRead(LEFT_BUTTON) == LOW);
 
-      bool softDrop = left && right;
+      bool softDrop = rightState && leftState;
 
       if (softDrop) {
         dropInterval = 20;  //fast
       } else {
 
-        // check left
-        if (left) {
-          leftHold += moveInterval;
+        // check rightState
+        if (rightState) {
+          rightHoldTimer += moveInterval;
 
-          if (leftHold == moveInterval || leftHold > moveDelay) {
+          if (rightHoldTimer == moveInterval || rightHoldTimer > moveDelay) {
             if (col > 0 && !(matrix[row] & (bit >> 1))) {
               sendCmd(row + 1, matrix[row]);
               // update position
@@ -126,15 +126,15 @@ void loop() {
               // draw new
               sendCmd(row + 1, matrix[row] | bit);
             }
-            if (leftHold > moveDelay) leftHold -= moveRepeat;
+            if (rightHoldTimer > moveDelay) rightHoldTimer -= moveRepeat;
           }
         }
 
-        // check right
-        if (right) {
-          rightHold += moveInterval;
+        // check leftState
+        if (leftState) {
+          leftHoldTimer += moveInterval;
 
-          if (rightHold == moveInterval || rightHold > moveDelay) {
+          if (leftHoldTimer == moveInterval || leftHoldTimer > moveDelay) {
             if (col < 7 && !(matrix[row] & (bit << 1))) {
               sendCmd(row + 1, matrix[row]);
               // update position
@@ -143,7 +143,7 @@ void loop() {
               // draw new
               sendCmd(row + 1, matrix[row] | bit);
             }
-            if (rightHold > moveDelay) rightHold -= moveRepeat;
+            if (leftHoldTimer > moveDelay) leftHoldTimer -= moveRepeat;
           }
         }
       }

@@ -121,9 +121,13 @@ choose, it's just focused on the joy of using them.
 
 See [Programming the ATTiny](./section3_programming_the_ATTiny.md)
 
+## Building the Game Board
+
+See [Building the Game Board](./section4_building_the_game_board.md)
+
 ## Building the Falling‑Block Game
 
- See [Writing the game DOTris](section6_writing_the_Game.md)
+See [Writing the game DOTris](./section6_writing_the_Game.md)
 
 ## Possible additions
 

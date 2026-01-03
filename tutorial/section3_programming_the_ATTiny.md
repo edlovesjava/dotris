@@ -41,6 +41,8 @@ Connect the Arduino Nano to the ATtiny85 as follows:
 | 5V               | Pin 8 (Vcc)     | Power               |
 | GND              | Pin 4 (GND)     | Ground              |
 
+![ATtiny85 Programmer Setup with Arduino Nano](ATTinyProgrammerWithArduinoNANO.jpg)
+
 **Note:** You will need to connect a 10 μF capacitor between RESET and
 GND on the Nano to prevent auto-reset during programming. Remember the
 negative (striped) side of the capacitor goes to GND.
