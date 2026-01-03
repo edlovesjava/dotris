@@ -1,3 +1,6 @@
+// v1.1 - Added score tracking and display
+#include <avr/pgmspace.h>
+
 // MAX7219 Register Addresses
 #define MAX7219_REG_NOOP 0x00
 #define MAX7219_REG_DIGIT0 0x01
@@ -23,6 +26,21 @@ const uint8_t RIGHT_BUTTON = 3;
 const uint8_t LEFT_BUTTON = 4;
 
 byte matrix[8];
+uint16_t score = 0;
+
+// 3x5 pixel font for digits 0-9 (stored in program memory)
+const uint8_t PROGMEM font3x5[10][5] = {
+  {0b111, 0b101, 0b101, 0b101, 0b111}, // 0
+  {0b010, 0b110, 0b010, 0b010, 0b111}, // 1
+  {0b111, 0b001, 0b111, 0b100, 0b111}, // 2
+  {0b111, 0b001, 0b111, 0b001, 0b111}, // 3
+  {0b101, 0b101, 0b111, 0b001, 0b001}, // 4
+  {0b111, 0b100, 0b111, 0b001, 0b111}, // 5
+  {0b111, 0b100, 0b111, 0b101, 0b111}, // 6
+  {0b111, 0b001, 0b010, 0b010, 0b010}, // 7
+  {0b111, 0b101, 0b111, 0b101, 0b111}, // 8
+  {0b111, 0b101, 0b111, 0b001, 0b111}, // 9
+};
 
 void sendByte(uint8_t b) {
   for (int i = 7; i >= 0; i--) {
@@ -42,6 +60,75 @@ void sendCmd(uint8_t addr, uint8_t data) {
 void updateDisplay() {
   for (uint8_t row = 0; row < 8; row++) {
     sendCmd(row + 1, matrix[row]);
+  }
+}
+
+// Display a single 3x5 digit centered on the 8x8 matrix
+void displayDigit(uint8_t digit) {
+  for (uint8_t i = 0; i < 8; i++) matrix[i] = 0;
+  for (uint8_t row = 0; row < 5; row++) {
+    matrix[row + 1] = pgm_read_byte(&font3x5[digit][row]) << 2; // Center horizontally
+  }
+  updateDisplay();
+}
+
+// Scroll score digits across the display at game over
+void displayScore(uint16_t value) {
+  uint8_t digits[5];
+  uint8_t numDigits = 0;
+
+  // Extract digits (handle zero)
+  if (value == 0) {
+    digits[numDigits++] = 0;
+  } else {
+    uint16_t temp = value;
+    while (temp > 0 && numDigits < 5) {
+      digits[numDigits++] = temp % 10;
+      temp /= 10;
+    }
+    // Reverse to get correct order
+    for (uint8_t i = 0; i < numDigits / 2; i++) {
+      uint8_t tmp = digits[i];
+      digits[i] = digits[numDigits - 1 - i];
+      digits[numDigits - 1 - i] = tmp;
+    }
+  }
+
+  // Scroll each digit across the screen
+  for (uint8_t d = 0; d < numDigits; d++) {
+    uint8_t digit = digits[d];
+
+    // Scroll from right to center, pause, then scroll left
+    // Scroll in from right
+    for (int8_t x = -3; x <= 2; x++) {
+      for (uint8_t i = 0; i < 8; i++) matrix[i] = 0;
+      for (uint8_t row = 0; row < 5; row++) {
+        uint8_t glyph = pgm_read_byte(&font3x5[digit][row]);
+        if (x >= 0) {
+          matrix[row + 1] = glyph << (5 - x);
+        } else {
+          matrix[row + 1] = glyph << (5 + (-x));
+        }
+      }
+      updateDisplay();
+      delay(60);
+    }
+
+    // Pause in center
+    delay(300);
+
+    // Scroll out to left
+    for (int8_t x = 2; x >= -3; x--) {
+      for (uint8_t i = 0; i < 8; i++) matrix[i] = 0;
+      for (uint8_t row = 0; row < 5; row++) {
+        uint8_t glyph = pgm_read_byte(&font3x5[digit][row]);
+        if (x >= 0) {
+          matrix[row + 1] = glyph << x;
+        }
+      }
+      updateDisplay();
+      delay(60);
+    }
   }
 }
 
@@ -169,6 +256,8 @@ void loop() {
 
   //if row fill, clear row and drop lower rows
   if (matrix[row] == 0xFF) {
+    score++;  // Increment score for each cleared line
+
     //flash row twice
     delay(60);
     sendCmd(row + 1, 0x00);
@@ -208,9 +297,14 @@ void loop() {
     delay(1000);
     for (uint8_t i = 0; i < 8; i++) matrix[i] = 0;
     updateDisplay();
+    delay(300);
+
+    // Display final score
+    displayScore(score);
     delay(500);
 
     // Reset game state
+    score = 0;
     speed = 1;
     tick = 0;
   }
