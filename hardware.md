@@ -127,3 +127,80 @@ Note: Internal pull-ups are enabled in software
 - **Random behavior**: Add decoupling capacitor near ATtiny85
 - **Buttons not responding**: Verify internal pull-ups are enabled in code
 - **Dim LEDs**: Adjust intensity in software or check power supply current capacity
+
+## Resource Usage Analysis
+
+### Summary
+
+| Resource | Capacity | Estimated Usage | Available |
+|----------|----------|-----------------|-----------|
+| **SRAM** | 512 B | ~60 B (12%) | ~450 B |
+| **Flash** | 8192 B | ~3000 B (37%) | ~5000 B |
+| **Power** | - | ~80 mA @ 5V | - |
+| **Clock** | 8 MHz | adequate | - |
+
+### SRAM Usage
+
+The game uses an efficient 8-byte bitmap for the display buffer:
+
+| Variable | Type | Size |
+|----------|------|------|
+| `matrix[8]` | `byte[8]` | 8 bytes |
+| `tick` | `uint16_t` | 2 bytes |
+| `speed` | `uint8_t` | 1 byte |
+| `rightHoldTimer` | `uint16_t` | 2 bytes |
+| `leftHoldTimer` | `uint16_t` | 2 bytes |
+| Local variables in `loop()` | various | ~12 bytes |
+| Stack overhead | - | ~20-40 bytes |
+
+**Total: ~50-70 bytes** - SRAM is abundant for this application.
+
+### Flash Usage
+
+| Component | Estimated Size |
+|-----------|----------------|
+| Initialization code | ~200 bytes |
+| SPI functions (`sendByte`, `sendCmd`, `updateDisplay`) | ~150 bytes |
+| Main `loop()` logic | ~800 bytes |
+| Arduino core overhead | ~1500-2500 bytes |
+| **Total** | **~2,600-3,600 bytes** |
+
+### Speed/Timing
+
+| Operation | Timing |
+|-----------|--------|
+| Clock frequency | 8 MHz (125 ns/cycle) |
+| Bit-bang SPI clock | ~50-100 kHz |
+| Full display update | ~1.3 ms |
+| Main loop iteration | 1 ms minimum |
+| Button polling interval | 30 ms |
+| Piece drop rate | 800 ms (speed=1) to 200 ms (speed=30) |
+
+### Power Consumption
+
+| Component | Current |
+|-----------|---------|
+| ATtiny85 @ 8MHz, 5V | ~5-10 mA |
+| MAX7219 (logic) | ~5 mA |
+| LEDs (8x8, intensity 8/15) | ~40-100 mA |
+| **Total** | **~50-120 mA @ 5V** |
+
+### How to Measure
+
+**Flash/SRAM (compile-time):**
+```bash
+# Arduino IDE: Sketch → Verify/Compile → Check output window
+
+# Command line with avr-gcc:
+avr-gcc -mmcu=attiny85 -Os -o output.elf sketch.cpp
+avr-size --mcu=attiny85 -C output.elf
+```
+
+**Power (runtime):**
+- Use a USB power meter between supply and circuit
+- Or insert a multimeter (ammeter mode) in series with VCC
+- Measure at different LED intensities (0x00 to 0x0F)
+
+**Speed (runtime):**
+- Toggle an unused pin at loop boundaries, measure with oscilloscope
+- Or use `micros()` timing (adds code overhead)
